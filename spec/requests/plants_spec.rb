@@ -1,7 +1,8 @@
+# spec/requests/plants_spec.rb
+
 require 'rails_helper'
 
 RSpec.describe "Plants", type: :request do
-
   describe "GET /plants" do
     before do
       Plant.create(name: 'Aloe', image: './images/aloe.jpg', price: 15.99, is_in_stock: true)
@@ -10,7 +11,7 @@ RSpec.describe "Plants", type: :request do
   
     it 'returns an array of all plants' do
       get '/plants'
-
+  
       expect(response.body).to include_json([
         { id: a_kind_of(Integer), name: 'Aloe', image: './images/aloe.jpg', price: '15.99', is_in_stock: true },
         { id: a_kind_of(Integer), name: 'ZZ Plant', image: './images/zz-plant.jpg', price: '25.98', is_in_stock: true }
@@ -26,7 +27,7 @@ RSpec.describe "Plants", type: :request do
   
     it 'returns the first plant' do
       get "/plants/#{Plant.first.id}"
-
+  
       expect(response.body).to include_json({
         id: a_kind_of(Integer),
         name: 'Aloe', 
@@ -35,10 +36,10 @@ RSpec.describe "Plants", type: :request do
         is_in_stock: true
       })
     end
-
+  
     it 'returns the second plant' do
       get "/plants/#{Plant.second.id}"
-
+  
       expect(response.body).to include_json({
         id: a_kind_of(Integer),
         name: 'ZZ Plant', 
@@ -105,5 +106,4 @@ RSpec.describe "Plants", type: :request do
       expect { delete "/plants/#{plant.id}" }.to change(Plant, :count).from(1).to(0)
     end
   end
-
 end
